@@ -151,7 +151,7 @@ module Puppet::Environments
     # @!macro loader_get_conf
     def get_conf(name)
       return nil unless name == @env_name
-      Puppet::Settings::EnvironmentConf.load_from(@env_dir, '')
+      Puppet::Settings::EnvironmentConf.load_from(@env_dir, [])
     end
   end
 
