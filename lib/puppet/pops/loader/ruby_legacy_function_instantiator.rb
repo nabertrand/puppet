@@ -33,7 +33,7 @@ class Puppet::Pops::Loader::RubyLegacyFunctionInstantiator
 
       # Validate what was loaded
       unless func_info.is_a?(Hash)
-        raise ArgumentError, _("The code loaded from %{source_ref} did not produce the expected 3x function info Hash when evaluated. Got '%{klass}'") % { source_ref: source_ref, klass: created.class }
+        raise ArgumentError, _("The code loaded from %{source_ref} did not produce the expected 3x function info Hash when evaluated. Got '%{klass}'") % { source_ref: source_ref, klass: func_info }
       end
       unless func_info[:name] == "function_#{typed_name.name()}"
         raise ArgumentError, _("The code loaded from %{source_ref} produced mis-matched name, expected 'function_%{type_name}', got %{created_name}") % { 
