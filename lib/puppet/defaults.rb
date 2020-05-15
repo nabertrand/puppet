@@ -2074,6 +2074,17 @@ EOT
       referencing variables that are explicitly set to undef).
     EOT
     },
+  :strict_hash_keys => {
+    :default => true,
+    :type => :boolean,
+    :hook => proc do |value|
+      Puppet[:strict_variables] = true if value
+    end,
+    :desc => <<-'EOT'
+      Causes an evaluation error when referencing missing hash keys. (This does not affect
+      referencing hash keys that are explicitly set to undef). Implies `strict_variables`.
+    EOT
+    },
   :tasks => {
     :default => false,
     :type => :boolean,

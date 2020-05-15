@@ -225,6 +225,10 @@ module Issues
     _("Mismatched number of assignable entries and values, expected %{expected}, got %{actual}") % { expected: expected, actual: actual }
   end
 
+  MISSING_HASH_KEY = issue :MISSING_HASH_KEY, :key, :hash do
+    _("No key '%{key}' found in hash '%{hash}'") % { key: key, hash: hash }
+  end
+
   MISSING_MULTI_ASSIGNMENT_KEY = hard_issue :MISSING_MULTI_ASSIGNMENT_KEY, :key do
     _("No value for required key '%{key}' in assignment to variables from hash") % { key: key }
   end

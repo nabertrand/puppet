@@ -135,7 +135,17 @@ class AccessOperator
     # Look up key in hash, if key is nil, try alternate form (:undef) before giving up.
     # This is done because the hash may have been produced by 3x logic and may thus contain :undef.
     result = keys.collect do |k|
-      o.fetch(k) { |key| key.nil? ? o[:undef] : nil }
+      o.fetch(k) do |key|
+        if key.nil?
+          o[:undef]
+        else
+          if Puppet[:strict_hash_keys]
+            fail(Issues::MISSING_HASH_KEY, @semantic.left_expr, {:key => key, :hash => @semantic.left_expr.expr.value})
+          else
+            nil
+          end
+        end
+      end
     end
     case result.size
     when 0

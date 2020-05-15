@@ -104,9 +104,18 @@ module Interpolation
           end
         end
         unless value.nil? || segments.empty?
-          found = nil;
-          catch(:no_such_key) { found = sub_lookup(key, lookup_invocation, segments, value) }
-          value = found;
+          not_found = true
+          catch(:no_such_key) do
+            value = sub_lookup(key, lookup_invocation, segments, value)
+            not_found = false
+          end
+          if not_found
+            if Puppet[:strict_hash_keys]
+              fail(Issues::MISSING_HASH_KEY, { :key => segments[0], :hash => root_key }, find_line_matching(/%\{#{key}}/))
+            else
+              value = nil
+            end
+          end
         end
         lookup_invocation.remember_scope_lookup(key, root_key, segments, value)
         value
